@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/env/wall/wall_normals.png" type="Texture" id=1]
+[ext_resource path="res://assets/env/wall/wall.png" type="Texture" id=2]
+[ext_resource path="res://scripts/management/cell.gd" type="Script" id=3]
+[ext_resource path="res://resources/floor.tres" type="Material" id=4]
+[ext_resource path="res://assets/obj/floor.obj" type="ArrayMesh" id=5]
+[ext_resource path="res://assets/obj/wall.obj" type="ArrayMesh" id=6]
+
+[sub_resource type="SpatialMaterial" id=3]
+params_diffuse_mode = 1
+params_specular_mode = 4
+albedo_texture = ExtResource( 2 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 1 )
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.5, 0.5, 0.5 )
+
+[node name="Cell" type="Area"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource( 3 )
+
+[node name="TopFace" type="MeshInstance" parent="."]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 2, 0 )
+mesh = ExtResource( 5 )
+material/0 = ExtResource( 4 )
+
+[node name="NorthFace" type="MeshInstance" parent="."]
+transform = Transform( -1, 4.37114e-08, -4.37114e-08, -4.37114e-08, 4.37114e-08, 1, 4.37114e-08, 1, -4.37114e-08, 0, 1, -1 )
+mesh = ExtResource( 6 )
+material/0 = SubResource( 3 )
+
+[node name="EastFace" type="MeshInstance" parent="."]
+transform = Transform( -4.37114e-08, -1, 0, -4.37114e-08, 1.91069e-15, 1, -1, 4.37114e-08, -4.37114e-08, 1, 1, 0 )
+mesh = ExtResource( 6 )
+material/0 = SubResource( 3 )
+
+[node name="SouthFace" type="MeshInstance" parent="."]
+transform = Transform( 1, -4.37114e-08, 4.37114e-08, -4.37114e-08, 1.31134e-07, 1, -4.37114e-08, -1, 1.31134e-07, 0, 1, 1 )
+mesh = ExtResource( 6 )
+material/0 = SubResource( 3 )
+
+[node name="WestFace" type="MeshInstance" parent="."]
+transform = Transform( 4.37114e-08, 1, -8.74228e-08, -4.37114e-08, 8.74228e-08, 1, 1, -4.37114e-08, 4.37114e-08, -1, 1, 0 )
+mesh = ExtResource( 6 )
+material/0 = SubResource( 3 )
+
+[node name="BottomFace" type="MeshInstance" parent="."]
+mesh = ExtResource( 5 )
+material/0 = ExtResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = SubResource( 2 )

@@ -1,0 +1,12 @@
+[gd_resource type="SpatialMaterial" load_steps=3 format=2]
+
+[ext_resource path="res://assets/env/wall/wall.png" type="Texture" id=1]
+[ext_resource path="res://assets/env/wall/wall_normals.png" type="Texture" id=2]
+
+[resource]
+params_diffuse_mode = 1
+params_specular_mode = 4
+albedo_texture = ExtResource( 1 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 2 )
