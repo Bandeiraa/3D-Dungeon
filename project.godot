@@ -45,7 +45,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Globals="*res://scripts/autoload/globals.gd"
-ResourceStash="*res://scripts/autoload/resource_stash.gd"
+TransitionScreen="*res://scenes/management/transition_screen.tscn"
 
 [input]
 
