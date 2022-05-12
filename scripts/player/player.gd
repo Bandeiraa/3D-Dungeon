@@ -21,7 +21,14 @@ func get_direction(ray: RayCast) -> Vector3:
 	if not ray is RayCast: 
 		return Vector3.ZERO
 		
-	return ray.get_collider().global_transform.origin - global_transform.origin
+	match ray.get_collider().object_name:
+		"Cell":
+			return ray.get_collider().global_transform.origin - global_transform.origin
+			
+		"Ladder":
+			return (ray.get_collider().global_transform.origin - global_transform.origin) + Vector3.UP * 2
+			
+	return Vector3.ZERO
 	
 	
 func move_player(direction: Vector3) -> void:

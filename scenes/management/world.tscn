@@ -1,8 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/management/world.gd" type="Script" id=1]
 [ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/env/map_creator.tscn" type="PackedScene" id=3]
+[ext_resource path="res://resources/tile/lower_tile.tres" type="TileSet" id=4]
+[ext_resource path="res://resources/tile/middle_tile.tres" type="TileSet" id=5]
+[ext_resource path="res://resources/tile/upper_tile.tres" type="TileSet" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
@@ -28,8 +31,20 @@ Map = SubResource( 2 )
 [node name="Player" parent="." instance=ExtResource( 2 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
 
-[node name="Management" type="Node2D" parent="."]
+[node name="Map" type="Spatial" parent="."]
 
-[node name="MapCreator" parent="Management" instance=ExtResource( 3 )]
+[node name="MapManager" type="Node2D" parent="."]
 visible = false
-tile_data = PoolIntArray( 65531, 0, 0, 65532, 0, 0, 65533, 0, 0, 65534, 0, 0, 65535, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 131067, 0, 0, 131069, 0, 0, 65536, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 0, 0, 65544, 0, 0, 65545, 0, 0, 65549, 0, 0, 196603, 0, 0, 196605, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 131080, 0, 0, 131085, 0, 0, 262139, 0, 0, 262141, 0, 0, 196608, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 196621, 0, 0, 327675, 0, 0, 327677, 0, 0, 262144, 0, 0, 262150, 0, 0, 262157, 0, 0, 393211, 0, 0, 393213, 0, 0, 327680, 0, 0, 327693, 0, 0, 458747, 0, 0, 458748, 0, 0, 458749, 0, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393227, 0, 0, 393228, 0, 0, 393229, 0, 0, 524283, 0, 0, 524284, 0, 0, 524285, 0, 0 )
+
+[node name="Lower" parent="MapManager" instance=ExtResource( 3 )]
+tile_set = ExtResource( 4 )
+y_level = -2
+
+[node name="Middle" parent="MapManager" instance=ExtResource( 3 )]
+tile_set = ExtResource( 5 )
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 1, 0 )
+
+[node name="Upper" parent="MapManager" instance=ExtResource( 3 )]
+tile_set = ExtResource( 6 )
+tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 0, -65535, 0, 0, -65534, 0, 0, -65533, 0, 0, -65532, 0, 0, -65531, 0, 0, -65530, 0, 0, -65529, 0, 0, 65535, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 7, 0, 0, 131071, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 0, 0 )
+y_level = 2

@@ -1,12 +1,20 @@
 extends Spatial
 class_name Level
 
-const CELL: PackedScene = preload("res://scenes/env/cell.tscn")
+onready var map_manager: Node2D = get_node("MapManager")
+onready var map: Spatial = get_node("Map")
 
-onready var tilemap: TileMap = get_node("Management/MapCreator")
+var cells: Array = [
+	[], #Y = -1
+	[], #Y =  0
+	[]  #Y =  1
+]
 
-var cells: Array = []
-var tiles_list: Array = []
+var tiles_list: Array = [
+	[], #Y = -1
+	[], #Y =  0
+	[]  #Y =  1
+]
 
 export(PackedScene) var Map
 
@@ -25,30 +33,49 @@ func apply_environment() -> void:
 	
 	
 func generate_first_map() -> void:
-	var used_tiles = tilemap.get_used_cells()
-	for tile in used_tiles:
-		create_cell(tile)
-		
-	update_cells(used_tiles)
-	
-	
-func generate_map() -> void:
-	var used_tiles = tilemap.get_used_cells()
-	for tile in used_tiles:
-		if tiles_list.find(tile) == -1:
-			create_cell(tile)
+	for tilemap in map_manager.get_children():
+		var used_tiles = tilemap.get_used_cells()
+		var tilemap_index: int = tilemap.get_index()
+		for tile in used_tiles:
+			var cell_id: int = tilemap.get_cellv(tile)
+			create_cell(tile, tilemap_index, tilemap.y_level, cell_id)
 			
-	update_cells(used_tiles)
+		update_cells()
+		
+		
+func generate_map() -> void:
+	for tilemap in map_manager.get_children():
+		var used_tiles = tilemap.get_used_cells()
+		var tilemap_index: int = tilemap.get_index()
+		for tile in used_tiles:
+			if tiles_list[tilemap_index].find(tile) == -1:
+				var cell_id: int = tilemap.get_cellv(tile)
+				create_cell(tile, tilemap_index, tilemap.y_level, cell_id)
+				
+		update_cells()
+		
+		
+func create_cell(tile: Vector2, tilemap_id: int, y_level: int, cell_id: int) -> void:
+	var index_object = load(index_object(cell_id)).instance()
+	if index_object is Ladder:
+		index_object.rotation_degrees.y = 90 #Mutable logic
+		
+	index_object.y_level = y_level
+	index_object.translation = Vector3(tile.x * Globals.GRID_SIZE, y_level, tile.y * Globals.GRID_SIZE)
+	
+	map.add_child(index_object)
+	tiles_list[tilemap_id].append(tile)
+	cells[tilemap_id].append([tile, index_object])
 	
 	
-func create_cell(tile: Vector2) -> void:
-	var cell: Cell = CELL.instance()
-	add_child(cell)
-	cell.translation = Vector3(tile.x*Globals.GRID_SIZE, 0, tile.y*Globals.GRID_SIZE)
-	cells.append(cell)
-	tiles_list.append(tile)
-	
-	
-func update_cells(used_tiles: Array) -> void:
-	for cell in cells:
-		cell.update_faces(used_tiles)
+func update_cells() -> void:
+	for cell in map.get_children():
+		if cell is Cell:
+			cell.update_faces(cells, tiles_list)
+			
+			
+func index_object(cell_id: int) -> String:
+	if cell_id == 1:
+		return "res://scenes/env/ladder.tscn"
+	else:
+		return "res://scenes/env/cell.tscn"
